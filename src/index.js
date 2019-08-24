@@ -1,12 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import CollectBloodPressure from './components/CollectBloodPressure';
+import Confirmation from './components/Confirmation';
+
+class App extends React.Component {
+  state = { sent: false, error: false };
+
+  onCollectBloodPressureSubmit = (systolic, diastolic) => {
+    console.log(`sys: ${systolic}, dia: ${diastolic}`);
+    this.setState({ sent: true });
+  };
+  componentDidMount() {}
+
+  renderComponent() {
+    return this.state.sent ? (
+      <Confirmation message="Data sent successfully!" />
+    ) : (
+      <CollectBloodPressure
+        onSubmit={this.onCollectBloodPressureSubmit}
+        error={this.state.error}
+      />
+    );
+  }
+
+  render() {
+    return this.renderComponent();
+  }
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
